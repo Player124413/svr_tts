@@ -32,7 +32,7 @@
 
 Установка через pip (после упаковки библиотеки):
 
-pip install svr_tts
+pip install git+https://github.com/Selectorrr/svr_tts.git
 
 Смотри setup.py для подробностей по пакету.
 
