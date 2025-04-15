@@ -45,7 +45,7 @@ pip install git+https://github.com/Selectorrr/svr_tts.git
    from svr_tts import SVR_TTS  
    from svr_tts.core import SynthesisInput
 
-2. Создай объект синтеза с API-ключом
+2. Создай объект синтеза с API-ключом [можно получить тут](https://t.me/SynthVoiceRuBot)
 
    tts = SVR_TTS(api_key="твой_api_ключ")
 
