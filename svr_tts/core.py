@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import base64
 import logging
 import os
 
@@ -116,7 +117,7 @@ class SVR_TTS:
         self.estimator_model = ort.InferenceSession(self._download("estimator", cache_dir), providers=providers)
         self.vocoder_model = ort.InferenceSession(self._download("vocoder", cache_dir), providers=providers)
         if api_key:
-            api_key = api_key.encode('utf-8')
+            api_key = base64.b64encode(api_key.encode('utf-8')).decode('utf-8')
         self.api_key = api_key
 
     def _get_cache_dir(self) -> str:
