@@ -115,6 +115,8 @@ class SVR_TTS:
         self.encoder_model = ort.InferenceSession(self._download("encoder", cache_dir), providers=providers)
         self.estimator_model = ort.InferenceSession(self._download("estimator", cache_dir), providers=providers)
         self.vocoder_model = ort.InferenceSession(self._download("vocoder", cache_dir), providers=providers)
+        if api_key:
+            api_key = api_key.encode('utf-8')
         self.api_key = api_key
 
     def _get_cache_dir(self) -> str:
