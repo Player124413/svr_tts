@@ -32,7 +32,7 @@ from tqdm import tqdm
 что сервис токенизации доступен.
 """
 
-from typing import NamedTuple, List, Any, Optional
+from typing import NamedTuple, List, Any, Optional, Sequence
 import numpy as np
 import onnxruntime as ort
 import requests
@@ -98,7 +98,8 @@ class SVR_TTS:
     }
 
     def __init__(self, api_key, tokenizer_service_url: str = "https://synthvoice.ru/tokenize_batch",
-                 providers: List[str] = None) -> None:
+                 providers: Sequence[str | tuple[str, dict[Any, Any]]] | None = None,
+                 provider_options: Sequence[dict[Any, Any]] | None = None) -> None:
         """
         Инициализация объектов инференс-сессий для всех моделей.
 
@@ -111,11 +112,16 @@ class SVR_TTS:
         self.tokenizer_service_url = tokenizer_service_url
         cache_dir = self._get_cache_dir()
         os.environ["TQDM_POSITION"] = "-1"
-        self.base_model = ort.InferenceSession(self._download("base", cache_dir), providers=providers)
-        self.semantic_model = ort.InferenceSession(self._download("semantic", cache_dir), providers=providers)
-        self.encoder_model = ort.InferenceSession(self._download("encoder", cache_dir), providers=providers)
-        self.estimator_model = ort.InferenceSession(self._download("estimator", cache_dir), providers=providers)
-        self.vocoder_model = ort.InferenceSession(self._download("vocoder", cache_dir), providers=providers)
+        self.base_model = ort.InferenceSession(self._download("base", cache_dir), providers=providers,
+                                               provider_options=provider_options)
+        self.semantic_model = ort.InferenceSession(self._download("semantic", cache_dir), providers=providers,
+                                                   provider_options=provider_options)
+        self.encoder_model = ort.InferenceSession(self._download("encoder", cache_dir), providers=providers,
+                                                  provider_options=provider_options)
+        self.estimator_model = ort.InferenceSession(self._download("estimator", cache_dir), providers=providers,
+                                                    provider_options=provider_options)
+        self.vocoder_model = ort.InferenceSession(self._download("vocoder", cache_dir), providers=providers,
+                                                  provider_options=provider_options)
         if api_key:
             api_key = base64.b64encode(api_key.encode('utf-8')).decode('utf-8')
         self.api_key = api_key
