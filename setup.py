@@ -21,7 +21,7 @@ setup(
     version='0.3',
     packages=find_packages(),
     install_requires=[
-        'onnxruntime-gpu',
+        'onnxruntime',
         'numpy',
         'huggingface_hub',
         'appdirs',
